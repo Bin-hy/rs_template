@@ -1,20 +1,20 @@
 // 存放配置 struct
-use std::env;
-use std::net::{SocketAddr};
-use std::str::FromStr;
 use serde::{Deserialize, Serialize};
+use std::env;
+use std::net::SocketAddr;
+use std::str::FromStr;
 
-#[derive(Debug,Default, Clone,Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct Config {
     #[serde(default)]
     pub http: Http,
     #[serde(default)]
     pub auth: Auth,
     #[serde(default)]
-    pub log: Log
+    pub log: Log,
 }
 
-#[derive(Debug, Clone,Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Http {
     #[serde(default = "default_http_listen")]
     pub listen: SocketAddr,
@@ -44,15 +44,15 @@ fn default_http_listen() -> SocketAddr {
         "0.0.0.0:{}",
         env::var("PORT").unwrap_or(String::from("4000"))
     ))
-   .expect("invalid listen address")
+    .expect("invalid listen address")
 }
 
 impl Default for Http {
     fn default() -> Self {
         Self {
             listen: default_http_listen(), //
-            public: Default::default(), // 默认 ""
-            cors: Default::default(), // 默认 false
+            public: Default::default(),    // 默认 ""
+            cors: Default::default(),      // 默认 false
         }
     }
 }
@@ -62,15 +62,15 @@ fn default_log_level() -> String {
     env::var("LOG_LEVEL").unwrap_or_else(|_| {
         if cfg!(debug_assertions) {
             "debug".to_string()
-        }else{
+        } else {
             "info".to_string()
         }
     })
 }
 
-impl Default for Log{
+impl Default for Log {
     fn default() -> Self {
-        Self{
+        Self {
             level: default_log_level(),
         }
     }
