@@ -1,0 +1,12 @@
+[http]
+listen = "[::]:6666" #  "127.0.0.1:6666" # 监听所有 ip的 8888 端口
+#cors = false # 跨域
+
+[Auth]
+# JSON WEB TOKEN secret
+# secret= "<jwt_secret>"
+# static JWT token, superadmin, debuggger can use this token
+# tokens = [""]
+
+[Log]
+# level = "warn"

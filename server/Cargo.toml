@@ -1,0 +1,15 @@
+[package]
+name = "server"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+crate-type = ["lib"]
+
+[dependencies]
+serde_json = {workspace = true}
+serde = { workspace = true, features = ["derive"] }
+anyhow = { workspace = true, features = ["backtrace"] }
+tokio = { workspace = true, features = ["signal"] }
+axum = { workspace = true }
+log = "0.4.28"

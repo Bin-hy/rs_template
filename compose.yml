@@ -1,0 +1,15 @@
+
+services:
+  postgis:
+    image: postgis/postgis:16-3.4
+    container_name: postgis
+    restart: always
+    ports:
+      - 5432:5432
+    env_file:
+      - .env.local
+    volumes:
+      - rs_template_postgis:/var/lib/postgressql/data
+
+volumes:
+  rs_template_postgis:
