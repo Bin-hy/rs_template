@@ -2,7 +2,8 @@ use clap::Parser;
 use log::info;
 use tokio::net::TcpListener;
 
-mod utils;
+use utils::load;
+pub mod utils;
 
 #[derive(Parser)]
 #[command(version)]
