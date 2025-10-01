@@ -17,9 +17,9 @@ async fn main() {
     let args = Args::parse();
     let cfg: server::config::Config;
     #[cfg(debug_assertions)]
-    if cfg!(debug_assertions){
-        cfg = load("server", Some("conf/server.local.toml".to_string()) );
-    }else {
+    if cfg!(debug_assertions) {
+        cfg = load("server", Some("conf/server.local.toml".to_string()));
+    } else {
         cfg = load("server", args.config);
     }
     let listener = TcpListener::bind(&cfg.http.listen).await.unwrap();
