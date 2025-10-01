@@ -1,0 +1,14 @@
+[package]
+name = "auth"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+crate-type = ["lib"]
+
+[dependencies]
+axum = { workspace = true }
+anyhow = { workspace = true, features = ["backtrace"] }
+headers = "0.4"
+jsonwebtoken = "9.3"
+serde = { version = "1.0.226", features = ["derive"] }

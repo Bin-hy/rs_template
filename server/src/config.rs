@@ -1,8 +1,11 @@
+use std::cmp::max;
 // 存放配置 struct
 use serde::{Deserialize, Serialize};
 use std::env;
 use std::net::SocketAddr;
 use std::str::FromStr;
+use std::time::Duration;
+use std::vec::Drain;
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct Config {
@@ -12,6 +15,9 @@ pub struct Config {
     pub auth: Auth,
     #[serde(default)]
     pub log: Log,
+    // database config
+    #[serde(default)]
+    pub database: Database,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -36,6 +42,40 @@ pub struct Auth {
 pub struct Log {
     #[serde(default = "default_log_level")]
     pub level: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Database {
+    #[serde(default = "default_db_url")]
+    pub url: String,
+    #[serde(default = "default_db_max_connections")]
+    pub max_connections: u32,
+    #[serde(default = "default_db_connect_timeout")]
+    pub connect_timeout: u64,
+}
+
+impl Default for Database {
+    fn default() -> Self {
+        Self {
+            url: default_db_url(),
+            max_connections: default_db_max_connections(),
+            connect_timeout: default_db_connect_timeout(),
+        }
+    }
+}
+
+fn default_db_url() -> String {
+    std::env::var("DATABASE_URL").unwrap_or_else(|_| {
+        "postgres://postgres_user:postgres_password@localhost:6379/database_name".to_string()
+    })
+}
+
+fn default_db_max_connections() -> u32 {
+    10
+}
+
+fn default_db_connect_timeout() -> u64 {
+    30
 }
 
 // 默认配置 - http

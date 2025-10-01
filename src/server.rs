@@ -15,11 +15,19 @@ struct Args {
 #[tokio::main]
 async fn main() {
     let args = Args::parse();
-    let cfg: server::config::Config = utils::load("server", args.config);
+    let cfg: server::config::Config;
+    #[cfg(debug_assertions)]
+    if cfg!(debug_assertions){
+        cfg = load("server", Some("conf/server.local.toml".to_string()) );
+    }else {
+        cfg = load("server", args.config);
+    }
     let listener = TcpListener::bind(&cfg.http.listen).await.unwrap();
     let addr = listener.local_addr().unwrap();
     info!("Listening on {}", addr);
-    println!("Listening on {}", addr);
+
+    #[cfg(debug_assertions)]
+    println!("listening on {}", addr);
     server::serve(cfg, listener).await;
     info!("Server Shutdown");
 }

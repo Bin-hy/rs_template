@@ -1,5 +1,5 @@
 [http]
-listen = "[::]:6666" #  "127.0.0.1:6666" # 监听所有 ip的 8888 端口
+listen = "[::]:4000" #  "127.0.0.1:4000" # 监听所有 ip的 8888 端口
 #cors = false # 跨域
 
 [Auth]
@@ -10,3 +10,10 @@ listen = "[::]:6666" #  "127.0.0.1:6666" # 监听所有 ip的 8888 端口
 
 [Log]
 # level = "warn"
+
+[database]
+url = "postgres://postgres:postgres@localhost/database"
+# 最大连接数 (Default: 10)
+max_connections = 10
+# 连接超时时间 (Default: 30)
+connect_timeout = 30
