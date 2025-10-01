@@ -1,5 +1,3 @@
-use anyhow::anyhow;
-use axum::Error;
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
 #[derive(Debug)]
@@ -25,5 +23,14 @@ impl IntoResponse for AppError {
                 (StatusCode::INTERNAL_SERVER_ERROR, err.to_string()).into_response()
             }
         }
+    }
+}
+// 让任何实现了 Into<anyhow::Error> 的错误（比如 IO 错误、数据库错误等）自动转换成 AppError::InternalServerError。
+impl<E> From<E> for AppError
+where
+    E: Into<anyhow::Error>,
+{
+    fn from(err: E) -> Self {
+        AppError::InternalServerError(err.into())
     }
 }

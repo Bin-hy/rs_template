@@ -3,6 +3,6 @@ use server::config::Config;
 #[cfg(test)]
 #[test]
 fn load_test() {
-    let cfg: Config = utils::load("server", Some("conf/server.toml".to_string()));
+    let cfg: Config = utils::load("server", Some("conf/server.local.toml".to_string()));
     print!("{:?}", cfg);
 }
