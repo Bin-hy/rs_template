@@ -74,7 +74,7 @@ const handleLogin = async () => {
     }
 
     // 登录成功后跳转到首页或其他页面
-    router.push('/dashboard') // 这里假设首页路径是/dashboard，根据实际情况修改
+    router.push('/dashboard')
 
   } catch (error) {
     console.error('登录失败:', error)
@@ -93,20 +93,27 @@ if (rememberedUser) {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-    <div class="w-full max-w-md bg-white rounded-xl shadow-2xl overflow-hidden">
-      <!-- 登录表单头部 -->
-      <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white">
+  <div class="min-h-screen flex items-center justify-center bg-base-200 p-4">
+    <div class="w-full max-w-md bg-white rounded-lg shadow-xl overflow-hidden">
+      <!-- 登录表单头部 - 使用daisyui的卡片 -->
+      <div class="bg-gradient-to-r from-primary to-secondary p-8 text-white">
+        <div class="text-center mb-2">
+          <div class="w-16 h-16 rounded-full bg-white bg-opacity-20 flex items-center justify-center mx-auto">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+          </div>
+        </div>
         <h1 class="text-2xl font-bold text-center">账号登录</h1>
-        <p class="text-blue-100 text-center mt-1">欢迎回来，请登录您的账号</p>
+        <p class="text-white text-opacity-80 text-center mt-1">欢迎回来，请登录您的账号</p>
       </div>
 
-      <!-- 登录表单内容 -->
-      <div class="p-6">
-        <form @submit.prevent="handleLogin" class="space-y-4">
-          <!-- 用户名输入框 -->
-          <div>
-            <label for="username" class="block text-sm font-medium text-gray-700 mb-1">
+      <!-- 登录表单内容 - 使用daisyui的表单组件 -->
+      <div class="p-8">
+        <form @submit.prevent="handleLogin">
+          <!-- 用户名输入框 - 使用daisyui的输入框 -->
+          <div class="mb-6">
+            <label for="username" class="label block mb-2 text-base font-medium text-gray-700">
               用户名
             </label>
             <div class="relative">
@@ -119,18 +126,18 @@ if (rememberedUser) {
                 id="username"
                 v-model="form.username"
                 type="text"
-                class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
+                class="input input-lg w-full pl-10 pr-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary transition duration-200 ease-in-out"
+                :class="{ 'border-error': errors.username, 'border-gray-300': !errors.username }"
                 placeholder="请输入用户名"
-                :class="{ 'border-red-500': errors.username }"
                 @blur="validateForm"
               />
             </div>
-            <p v-if="errors.username" class="text-red-500 text-xs mt-1">{{ errors.username }}</p>
+            <p v-if="errors.username" class="text-error text-sm mt-1">{{ errors.username }}</p>
           </div>
 
-          <!-- 密码输入框 -->
-          <div>
-            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+          <!-- 密码输入框 - 使用daisyui的输入框 -->
+          <div class="mb-6">
+            <label for="password" class="label block mb-2 text-base font-medium text-gray-700">
               密码
             </label>
             <div class="relative">
@@ -143,49 +150,49 @@ if (rememberedUser) {
                 id="password"
                 v-model="form.password"
                 type="password"
-                class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
+                class="input input-lg w-full pl-10 pr-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary transition duration-200 ease-in-out"
+                :class="{ 'border-error': errors.password, 'border-gray-300': !errors.password }"
                 placeholder="请输入密码"
-                :class="{ 'border-red-500': errors.password }"
                 @blur="validateForm"
               />
             </div>
-            <p v-if="errors.password" class="text-red-500 text-xs mt-1">{{ errors.password }}</p>
+            <p v-if="errors.password" class="text-error text-sm mt-1">{{ errors.password }}</p>
           </div>
 
-          <!-- 记住我和忘记密码 -->
-          <div class="flex items-center justify-between">
-            <div class="flex items-center">
+          <!-- 记住我和忘记密码 - 使用daisyui的复选框 -->
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center space-x-2">
               <input
                 id="remember"
                 v-model="form.remember"
                 type="checkbox"
-                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                class="checkbox checkbox-primary h-5 w-5 rounded border-gray-300 focus:ring-primary"
               />
-              <label for="remember" class="ml-2 block text-sm text-gray-700">
+              <label for="remember" class="text-sm text-gray-700 cursor-pointer">
                 记住我
               </label>
             </div>
-            <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-500 transition-colors">
+            <a href="#" class="text-sm font-medium text-primary hover:text-primary/80 transition-colors">
               忘记密码？
             </a>
           </div>
 
-          <!-- 登录按钮 -->
+          <!-- 登录按钮 - 使用daisyui的按钮 -->
           <button
             type="submit"
-            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200 ease-in-out"
+            class="btn btn-lg btn-primary w-full py-3 font-medium rounded-lg hover:bg-primary/90 focus:ring-4 focus:ring-primary/30 transition-all duration-200"
             :disabled="loading"
           >
-            <span v-if="loading" class="mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+            <span v-if="loading" class="mr-2 h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
             登录
           </button>
         </form>
 
         <!-- 注册账号提示 -->
-        <div class="mt-6 text-center">
+        <div class="mt-8 text-center">
           <p class="text-sm text-gray-600">
             还没有账号？
-            <a href="#" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
+            <a href="#" class="font-medium text-primary hover:text-primary/80 transition-colors">
               立即注册
             </a>
           </p>
