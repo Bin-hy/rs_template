@@ -12,7 +12,7 @@ impl DatabaseService {
     pub async fn new(db_config: &config::Database) -> Result<Self> {
         // https://www.sea-ql.org/SeaORM/docs/install-and-config/connection/#connect-options
         println!("Connecting to database: {}", db_config.url);
-        let mut url = &db_config.url;
+        let url = &db_config.url;
         let mut opt = ConnectOptions::new(&db_config.url);
         opt.max_connections(db_config.max_connections)
             .connect_timeout(Duration::from_secs(db_config.connect_timeout))

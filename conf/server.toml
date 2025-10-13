@@ -7,7 +7,8 @@ listen = "[::]:4000" #  "127.0.0.1:4000" # 监听所有 ip的 8888 端口
 # secret= "<jwt_secret>"
 # static JWT token, superadmin, debuggger can use this token
 # tokens = [""]
-
+# 过期时间 单位 s，
+expiration= 86400
 [Log]
 # level = "warn"
 

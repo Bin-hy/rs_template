@@ -8,6 +8,9 @@
     "paths": {
       "@/*": ["src/*"]
     },
+    /* 修复vue3中tsx语法的问题 */
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
     /* Linting */
     "strict": false,
     "noUnusedLocals": false,
