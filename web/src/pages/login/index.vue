@@ -2,7 +2,9 @@
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/pinia/stores/user'
-
+import { setRememberUser, removeRememberUser, getRememberUser } from '@/common/cache/localstorage'
+import { loginApi } from './api'
+import { showModal } from '@/utils/modal'
 // 表单数据
 const form = reactive({
   username: '',
@@ -22,66 +24,71 @@ const router = useRouter()
 const userStore = useUserStore()
 
 // 表单验证
-const validateForm = (): boolean => {
-  let isValid = true
+function validateForm (): boolean{
+    let isValid = true
 
-  // 重置错误信息
-  errors.username = ''
-  errors.password = ''
+    // 重置错误信息
+    errors.username = ''
+    errors.password = ''
 
-  // 验证用户名
-  if (!form.username.trim()) {
+    // 验证用户名
+    if (!form.username.trim()) {
     errors.username = '请输入用户名'
     isValid = false
-  }
+    }
 
-  // 验证密码
-  if (!form.password) {
+    // 验证密码
+    if (!form.password) {
     errors.password = '请输入密码'
     isValid = false
-  } else if (form.password.length < 6) {
+    } else if (form.password.length < 6) {
     errors.password = '密码长度不能少于6位'
     isValid = false
-  }
+    }
 
-  return isValid
+    return isValid
 }
 
 // 登录处理
-const handleLogin = async () => {
-  // 验证表单
-  if (!validateForm()) {
-    return
-  }
-
-  try {
-    loading.value = true
-
-    // 模拟登录请求
-    await new Promise(resolve => setTimeout(resolve, 1000))
-
-    // 假设登录成功，存储用户信息
-    userStore.setUserInfo({
-      username: form.username,
-      token: 'mock-token-123456'
-    })
-
-    // 如果勾选了记住我，可以在这里存储到本地存储
-    if (form.remember) {
-      localStorage.setItem('rememberedUser', form.username)
-    } else {
-      localStorage.removeItem('rememberedUser')
+async function handleLogin () {
+    // 验证表单
+    if (!validateForm()) {
+        return
     }
+    try {
+        loading.value = true
+        // 测试错误处理
+        let data = await loginApi({
+            username: form.username,
+            password: form.password
+        })
+        console.log(data)
+        return
+        // 假设登录成功，存储用户信息
+        userStore.setUserInfo({
+            username: form.username,
+            token: 'mock-token-123456'
+        })
 
-    // 登录成功后跳转到首页或其他页面
-    router.push('/dashboard')
+        // 如果勾选了记住我，可以在这里存储到本地存储
+        if (form.remember) {
+            setRememberUser(form.username)
+        } else {
+            removeRememberUser()
+        }
 
-  } catch (error) {
-    console.error('登录失败:', error)
-    alert('登录失败，请检查用户名和密码')
-  } finally {
-    loading.value = false
-  }
+        // 登录成功后跳转到首页或其他页面
+        router.push('/dashboard')
+
+    } catch (error) {
+        console.error('登录失败:', error)
+        showModal({
+            title: '登录失败',
+            content: error.message || '请检查用户名和密码'
+        })
+    } finally {
+        loading.value = false
+    }
 }
 
 // 检查是否有记住的用户
@@ -199,5 +206,6 @@ if (rememberedUser) {
         </div>
       </div>
     </div>
+
   </div>
 </template>

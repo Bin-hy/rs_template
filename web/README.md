@@ -1,3 +1,26 @@
+# 项目结构
+```
+├───public
+├───src
+│   ├───assets
+│   ├───common 公共模块
+│   ├───components 组件模块
+│   ├───http 网络相关模块
+│   ├───pages 页面模块
+│   ├───pinia 状态管理模块
+│   ├───router 路由模块
+│   ├───utils 工具模块
+│   ├───types 类型声明模块
+│   ├───App.vue
+│   ├───main.ts
+├───tailwind.config.js
+├───postcss.config.js
+├───index.html
+├───package.json
+├───README.md
+```
+
+
 
 # 如何搭建一个基本环境
 
