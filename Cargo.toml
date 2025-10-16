@@ -38,6 +38,10 @@ clap = "4.5"
 anyhow = "1.0.100"
 tracing = "0.1.41"
 
+utoipa-axum = { version = "0.2", features = ["debug"] }
+utoipa = { version = "5.1.1", features = ["axum_extras", "debug", "default"] }
+utoipa-swagger-ui = {version = "9.0.2", features = ["axum"]}
+
 [dependencies]
 server = { path="server"}
 clap = {workspace = true, features = ["derive"]}
@@ -58,3 +62,4 @@ lto = true
 [features]
 default = ["webp"]
 webp = []
+openapi = ["server/openapi"]

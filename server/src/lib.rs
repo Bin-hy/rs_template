@@ -1,5 +1,7 @@
 use crate::config::Config;
-// use crate::route::hello_handler;
+#[cfg(feature = "openapi")]
+use route::swagger_ui::ApiDoc;
+use auth::access;
 use axum::Router;
 use axum::extract::Request;
 use axum::response::{IntoResponse, Response};
@@ -14,7 +16,10 @@ use std::sync::Arc;
 use tokio::net::TcpListener;
 use tower_http::cors::CorsLayer;
 use tracing::info_span;
-use auth::access;
+#[cfg(feature = "openapi")]
+use utoipa::OpenApi;
+#[cfg(feature = "openapi")]
+use utoipa_swagger_ui::SwaggerUi;
 
 pub mod api;
 pub mod config;
@@ -24,13 +29,12 @@ pub mod result;
 pub mod route;
 pub mod service;
 
-// 运行 函数
 fn generate_router(cfg: &Config) -> Router<AppState> {
-    let router = Router::new()
+    let mut router = Router::new()
         .merge(route::get_routes())
         .layer(axum::middleware::from_fn(middleware::log_middleware)) // 日志
         // .layer(axum::middleware::from_fn(middleware::auth))
-        .layer(axum::middleware::from_fn(access::access_middleware))// 鉴权中间件
+        .layer(axum::middleware::from_fn(access::access_middleware)) // 鉴权中间件
         .layer(tower_http::trace::TraceLayer::new_for_http()) //
         .layer(if cfg.http.cors {
             // 配置跨域
