@@ -17,6 +17,10 @@ tokio = { workspace = true, features = ["signal"] }
 axum = { workspace = true, features = ["multipart", "tracing"] }
 tracing = {workspace = true}
 
+utoipa = { workspace= true, optional = true }
+utoipa-axum = {workspace = true ,optional = true}
+utoipa-swagger-ui = { workspace= true, optional = true }
+
 log = "0.4.28"
 # 提供常用的中间件
 tower-http = { version = "0.6.6", features = ["trace", "cors"] }
@@ -30,3 +34,6 @@ sea-orm = { version = "1.1", features = [
 ]}
 
 sea-orm-migration = "1.0"
+
+[features]
+openapi= ["dep:utoipa","dep:utoipa-swagger-ui", "dep:utoipa-axum"]
