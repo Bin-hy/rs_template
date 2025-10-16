@@ -10,9 +10,9 @@ export function loginApi(data: Auth.LoginRequestData) {
   })
 }
 
-export function testApi(){
-    return request({
-        url: "error",
-        method: "get"
-    })
+export function testApi() {
+  return request({
+    url: "error",
+    method: "get"
+  })
 }
