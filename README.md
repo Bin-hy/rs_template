@@ -23,3 +23,9 @@ cargo run -- -c conf/server.toml
 ```powershell
 cargo install sea-orm-cli
 ```
+
+# 数据库迁移
+> 每次修改数据库表结构后，都需要运行以下命令迁移数据库
+```powershell
+sea-orm-cli migrate up
+```
