@@ -29,3 +29,9 @@ cargo install sea-orm-cli
 ```powershell
 sea-orm-cli migrate up
 ```
+
+# 测试
+> 运行以下命令测试服务
+```powershell
+cargo test
+```
