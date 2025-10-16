@@ -11,5 +11,6 @@ axum = { workspace = true }
 anyhow = { workspace = true, features = ["backtrace"] }
 headers = "0.4"
 jsonwebtoken = "9.3"
+
 serde = { version = "1.0.226", features = ["derive"] }
 chrono = { version = "0.4", features = ["serde"] }

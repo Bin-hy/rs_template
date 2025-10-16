@@ -1,4 +1,4 @@
-const SYSTEM_NAME = import.meta.env.VITE_SYSTEM_NAME || "web-template"
+const SYSTEM_NAME = import.meta.env.VITE_SYSTEM_NAME || "serverfront-server-template"
 
 /** 缓存数据时用到的 Key */
 export class CacheKey {

@@ -16,6 +16,8 @@ anyhow = { workspace = true, features = ["backtrace"] }
 tokio = { workspace = true, features = ["signal"] }
 axum = { workspace = true, features = ["multipart", "tracing"] }
 tracing = {workspace = true}
+rust-embed ={workspace = true, features = ["axum-ex"], optional = true } # 设置可选 嵌入前端
+mime_guess = { workspace = true, optional = true }
 
 utoipa = { workspace= true, optional = true }
 utoipa-axum = {workspace = true ,optional = true}
@@ -36,4 +38,5 @@ sea-orm = { version = "1.1", features = [
 sea-orm-migration = "1.0"
 
 [features]
+webui = ["dep:rust-embed", "dep:mime_guess"]
 openapi= ["dep:utoipa","dep:utoipa-swagger-ui", "dep:utoipa-axum"]

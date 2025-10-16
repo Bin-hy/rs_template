@@ -1916,8 +1916,11 @@ version = "8.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "025908b8682a26ba8d12f6f2d66b987584a4a87bc024abc5bbc12553a8cd178a"
 dependencies = [
+ "axum",
+ "mime_guess",
  "rust-embed-impl",
  "rust-embed-utils",
+ "tokio",
  "walkdir",
 ]
 
@@ -2275,6 +2278,8 @@ dependencies = [
  "axum",
  "http",
  "log",
+ "mime_guess",
+ "rust-embed",
  "sea-orm",
  "sea-orm-migration",
  "serde",

@@ -59,6 +59,7 @@ async function handleLogin () {
         loading.value = true
         // 测试错误处理
         let data = await loginApi({
+            role: "admin",
             username: form.username,
             password: form.password
         })

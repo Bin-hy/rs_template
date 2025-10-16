@@ -13,6 +13,7 @@ use service::database::DatabaseService;
 use std::cell::Cell;
 use std::env;
 use std::sync::Arc;
+use http::Uri;
 use tokio::net::TcpListener;
 use tower_http::cors::CorsLayer;
 use tracing::info_span;
@@ -29,6 +30,30 @@ pub mod result;
 pub mod route;
 pub mod service;
 
+#[cfg(feature = "webui")]
+#[derive(rust_embed::RustEmbed)]
+#[folder = "../assets/server/"]
+struct Assets; // 配置静态资源路径
+
+#[cfg(feature = "webui")]
+async fn static_web_handler(uri: Uri) -> impl IntoResponse {
+    let mut path = uri.path().trim_start_matches('/');
+    if path.is_empty() {
+        path = "index.html";
+    }
+    match Assets::get(path){
+        Some(webContent) =>{
+            let mime = mime_guess::from_path(path).first_or_octet_stream();
+            ([(http::header::CONTENT_TYPE, mime.as_ref())], webContent.data).into_response()
+        }
+        None =>(http::StatusCode::NOT_FOUND, "not found").into_response(),
+    }
+}
+#[cfg(not(feature = "webui"))]
+async fn static_web_handler(_:Uri) -> impl IntoResponse {
+    (http::StatusCode::NOT_FOUND, "feature webui not enable. \n if you need, please add '--features webui' ")
+}
+// 运行 函数
 fn generate_router(cfg: &Config) -> Router<AppState> {
     let mut router = Router::new()
         .merge(route::get_routes())
@@ -61,7 +86,8 @@ pub async fn serve(cfg: Config, listener: TcpListener) {
 
     let app = Router::new()
         .merge(generate_router(&cfg))
-        .with_state(app_state);
+        .with_state(app_state)
+        .fallback(static_web_handler);
 
     axum::serve(listener, app).await.unwrap();
 }

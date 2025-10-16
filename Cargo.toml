@@ -37,6 +37,8 @@ serde_json = "1.0"
 clap = "4.5"
 anyhow = "1.0.100"
 tracing = "0.1.41"
+rust-embed = "8.7" # 嵌入 打包后的页面
+mime_guess = "2.0" # 用于猜测mine type
 
 utoipa-axum = { version = "0.2", features = ["debug"] }
 utoipa = { version = "5.1.1", features = ["axum_extras", "debug", "default"] }
@@ -63,3 +65,4 @@ lto = true
 default = ["webp"]
 webp = []
 openapi = ["server/openapi"]
+webui = ["server/webui"]
